@@ -1,0 +1,21 @@
+root = true
+[*]
+charset = utf-8
+indent_size = 2
+end_of_line = lf
+indent_style = space
+insert_final_newline = true
+# 设置为true以删除换行符之前的任何空白字符
+trim_trailing_whitespace = true
+
+[*{.js, .ts}]
+max_line_length = 120
+
+[Makefile]
+indent_style = tab
+
+[package.json]
+indent_size = 2
+
+[*.yml]
+indent_size = 2

@@ -1,0 +1,26 @@
+# 分号
+semi: true
+# 缩进
+tabWidth: 2
+# 使用空格缩进
+useTabs: false
+# 行宽
+printWidth: 120
+# 使用单引号
+singleQuote: true
+# 行结束符使用 Unix 格式
+endOfLine: "lf"
+# 引用对象中的属性时更改。
+quoteProps: "preserve"
+# 换行方式
+proseWrap: "preserve"
+# 后置逗号，多行对象，数组在最后一行增加逗号
+trailingComma: "es5"
+# 箭头函数参数尽可能省略括号
+arrowParens: "avoid"
+# 大括号内部要不要出现空格
+bracketSpacing: false
+# 在jsx中把'>' 是否单独放一行
+bracketSameLine: true
+# 在jsx中使用单引号代替双引号
+jsxSingleQuote: false

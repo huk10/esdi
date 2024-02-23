@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "removeComments": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "alwaysStrict": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": false,
+    "emitDecoratorMetadata": false,
+    "outDir": "dist",
+    "stripInternal": true,
+    "moduleResolution": "Node16",
+    "lib": ["es2017", "dom"]
+  },
+  "include": ["../src/"],
+  "exclude": [
+    "../src/__tests__"
+  ]
+}
