@@ -19,7 +19,7 @@ export class DependencyContainer {
   /**
    * 查询一个 ServiceIdentifier 是否有注册 provider。
    */
-  has(serviceIdentifier: ServiceIdentifier): boolean {
+  has(serviceIdentifier: NormalToken): boolean {
     return !!serviceIdentifier && this.registry.has(serviceIdentifier)
   }
 
@@ -32,7 +32,6 @@ export class DependencyContainer {
    * - provider 可以是支持的 4 种 provider 之一：value provider、factory provider、class provider、token provider
    *   如果是 token provider 的话会检测是否有出现循环依赖。
    * 如果 provider 是 class provider 则可以直接传递这个 class。
-   * todo provider 的生命周期是否需要支持。
    */
   register(serviceIdentifier: NormalToken, provider: ServiceProvider): void
   register(serviceIdentifier: NormalToken, provider: Constructor<unknown>): void

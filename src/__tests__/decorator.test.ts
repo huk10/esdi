@@ -9,7 +9,7 @@ beforeEach(() => container.reset());
  *    - 如果没有必传参数应该可以正常解析出实例。
  *    - 如果存在必传参数则抛出错误。
  * 2. resolve 一个使用了 @inject 装饰器但是没有使用 @injectable 或 @singleton 装饰器的类
- *    - 正常解析出实例，但是依赖不会注入进去。
+ *    - 正常解析出实例，依赖也会注入进去，但是什么周期为默认值。
  * 3. 重复使用 @injectable 、@singleton 或 @inject 装饰器。
  *    - 依照装饰器的执行顺序，后者会覆盖前者。
  * 4. @injectable 、@singleton 或者 @inject 错误的使用在其他装饰器位置。
