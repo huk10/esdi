@@ -12,13 +12,12 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": false,
     "emitDecoratorMetadata": false,
-    "outDir": "dist",
+    "rootDir": "../src",
+    "outDir": "../dist",
     "stripInternal": true,
+    "module": "Node16",
     "moduleResolution": "Node16",
     "lib": ["es2017", "dom"]
   },
   "include": ["../src/"],
-  "exclude": [
-    "../src/__tests__"
-  ]
 }
