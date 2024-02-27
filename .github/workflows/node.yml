@@ -1,0 +1,28 @@
+name: Node.js
+
+on: [ push ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 20 ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+      - name: Update coverage badge
+        uses: huk10/node-coverage-report@v1-beta
+        with:
+          amend: true
+        if: |
+          matrix.os == 'ubuntu-latest' && github.event_name == 'push'
+        continue-on-error: true
