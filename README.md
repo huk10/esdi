@@ -1,14 +1,12 @@
 # esdi
 
-Dependency injection library implemented based
-on [the decorator Stage 3 proposal](https://github.com/tc39/proposal-decorators)
-and [the decorator metadata Stage 3 proposal](https://github.com/tc39/proposal-decorator-metadata) .
-
 [![MIT License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/huk10/esdi/blob/master/LICENSE)
 ![](https://img.shields.io/badge/types-included-blue.svg)
 ![](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)
-![](https://img.shields.io/badge/coverage-96.49%25-brightgreen.svg)
+![](https://github.com/huk10/esdi/wiki/coverage.svg)
 [![Release](https://img.shields.io/github/release/huk10/esdi.svg?style=flat-square)](https://github.com/huk10/esdi/releases)
+
+Dependency injection library implemented based on [the decorator Stage 3 proposal](https://github.com/tc39/proposal-decorators) and [the decorator metadata Stage 3 proposal](https://github.com/tc39/proposal-decorator-metadata) .
 
 [English](./README.md) | [简体中文](./README-zh-Hans.md)
 
