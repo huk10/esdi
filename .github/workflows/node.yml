@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Update coverage badge
-        uses: huk10/node-coverage-report@v1-beta
+        uses: huk10/node-coverage-report@v1
         with:
           amend: true
         if: |
