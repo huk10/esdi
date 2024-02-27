@@ -12,6 +12,8 @@ and [the decorator metadata Stage 3 proposal](https://github.com/tc39/proposal-d
 
 [English](./README.md) | [简体中文](./README-zh-Hans.md)
 
+## Features
+
 - Property injection.
 - Supports injecting dependencies into [private properties](https://github.com/tc39/proposal-class-fields).
 - Supports injecting dependencies into properties modified
