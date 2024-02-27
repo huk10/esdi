@@ -1,19 +1,27 @@
 # esdi
 
-基于[第三阶段的装饰器提案](https://github.com/tc39/proposal-decorators)
-和[第三阶段的装饰器元数据提案](https://github.com/tc39/proposal-decorator-metadata)实现的依赖注入库。
+Dependency injection library implemented based
+on [the decorator Stage 3 proposal](https://github.com/tc39/proposal-decorators)
+and [the decorator metadata Stage 3 proposal](https://github.com/tc39/proposal-decorator-metadata) .
 
-## Features
+[![MIT License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/huk10/esdi/blob/master/LICENSE)
+![](https://img.shields.io/badge/types-included-blue.svg)
+![](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)
+![](https://img.shields.io/badge/coverage-96.49%25-brightgreen.svg)
+[![Release](https://img.shields.io/github/release/huk10/esdi.svg?style=flat-square)](https://github.com/huk10/esdi/releases)
 
-- 属性注入。
-- 支持注入依赖到[私有属性](https://github.com/tc39/proposal-class-fields)。
-- 支持注入依赖到被 [accessor 关键字](https://github.com/tc39/proposal-decorators#:~:text=Class%20auto%20accessors)修饰的属性。
-- 支持向容器注册 `Provider` 。
+[English](./README.md) | [简体中文](./README-zh-Hans.md)
+
+- Property injection.
+- Supports injecting dependencies into [private properties](https://github.com/tc39/proposal-class-fields).
+- Supports injecting dependencies into properties modified
+  by [the accessor keyword](https://github.com/tc39/proposal-decorators#:~:text=Class%20auto%20accessors).
+- Supports registration with containers `Provider`.
 
 ## Todos
 
-- [ ] 更友好的错误提示。
-- [ ] 打印指定服务的依赖图。
+- [ ] More friendly error prompts.
+- [ ] Prints the dependency graph of the specified service.
 
 ## Install
 
@@ -21,34 +29,37 @@
 todo
 ```
 
-esdi 是基于下面两个处于第三阶段的提案实现的：
+esdi is implemented based on the following two proposals in phase three:
 
-* [第三阶段的装饰器提案](https://github.com/tc39/proposal-decorators)
-* [第三阶段的装饰器元数据提案](https://github.com/tc39/proposal-decorator-metadata)
+* [Stage 3 Decorator Proposal](https://github.com/tc39/proposal-decorators)
+* [Stage 3 Decorator Metadata Proposal](https://github.com/tc39/proposal-decorator-metadata)
 
-目前 TypeScript 5.2 及以上版本和 Babel 7.23.0 及以上版本均已实现上述两个提案的功能。
+Currently, TypeScript 5.2 and above and Babel 7.23.0 and above have implemented the functions of the above two
+proposals.
 
-esdi 实现不依赖 `reflect-metadata`。
+The esdi implementation is independent `reflect-metadata`.
 
-**配合 TypeScript 使用**
+**Use with TypeScript**
 
-- 将 TypeScript 的版本提升至 5.2 或以上。
-- 将 `tsconfig.compilerOptions.experimentalDecorators` 设置为 `false`。
-- 在你的代码入口添加 `Symbol.metadata` polyfill，可以使用此行代码：`Symbol.metadata ??= Symbol.for("Symbol.metadata");`。
+- Upgrade the TypeScript version to 5.2 or above.
+- Set `tsconfig.compilerOptions.experimentalDecorators` to `false`.
+- To add polyfill to your code entry `Symbol.metadata`, you can use this line of
+  code: `Symbol.metadata ??= Symbol.for("Symbol.metadata");`。
 
-**配合 Babel 使用**
+**Use with Babel**
 
-- babel.config.js 中的 plugins 中添加  `["@babel/plugin-proposal-decorators", { "version": "2023-05" }]`。
-- 在你的代码入口添加 `Symbol.metadata` polyfill，可以使用此行代码：`Symbol.metadata ??= Symbol.for("Symbol.metadata");`。
+- Added in plugins in babel.config.js `["@babel/plugin-proposal-decorators", { "version": "2023-05" }]`.
+- To add polyfill to your code entry `Symbol.metadata`, you can use this line of
+  code: `Symbol.metadata ??= Symbol.for("Symbol.metadata");`。
 
-esdi 已经使用 Babel 和 TypeScript 进行过测试，一些细节可参考项目源代码。
+esdi has been tested using Babel and TypeScript, and some details can be found in the project source code.
 
 ## Usage
 
-### 一般使用场景
+### General usage scenarios
 
 ```typescript
-// 简单的无依赖、无必须参数的类不需要使用装饰器注释，除非需要特定的生命周期。
+// Simple classes with no dependencies and no required parameters do not need to be annotated with decorators unless a specific life cycle is required.
 class Bar {}
 
 @injectable()
@@ -60,7 +71,7 @@ class Foo {
 const instance = container.resolve(Foo)
 ```
 
-### 添加 Provider 作为类的依赖
+### Add Provider as a dependency of the class
 
 ```typescript
 @injectable()
@@ -69,13 +80,13 @@ class Foo {
 }
 
 // other file
-// 可以使用任意字符串、symbol 或者 Token 的实例作为 token 向容器注册 Provider。
+// You can use any string, symbol, or Token instance as the token to register the Provider with the container.
 container.register('count', {useValue: 1000})
 
 const instance = container.resolve(Foo); // instance.count === 1000   ->  true
 ```
 
-### 为私有字段和自动访问器（Auto-Accessors）字段注入依赖。
+### Inject dependencies for private fields and Auto-Accessors fields.
 
 <!-- 格式化和代码高亮还不支持 accessor 关键字。  -->
 
@@ -93,9 +104,10 @@ class Foo {
 
 #### injectable
 
-标记一个类，表示它是需要注入依赖的。它具有一个可选的 `Lifecycle` 参数，默认为 `Lifecycle.transient`。
+Mark a class to indicate that it requires injection of dependencies.
+It has an optional `Lifecycle` argument, which defaults to `Lifecycle.transient`.
 
-*目前仅用于设置生命周期（未来可能修改）*。
+*Currently only used to set the life cycle (may be modified in the future)*.
 
 ```typescript
 interface injectable {
@@ -105,7 +117,7 @@ interface injectable {
 
 #### singleton
 
-标记一个类，表示它具有类似单例的生命周期。
+Mark a class to indicate that it has a singleton-like lifecycle.
 
 ```typescript
 interface singleton {
@@ -115,9 +127,9 @@ interface singleton {
 
 #### inject
 
-用于需要向一个 class 的属性注入依赖时使用。
+Used when you need to inject dependencies into attributes of a class.
 
-它可以传入一个 `ServiceIdentifier<T>` 类型的参数。
+It can pass in a `ServiceIdentifier<T>` parameter of type.
 
 ```typescript
 interface inject {
@@ -127,43 +139,46 @@ interface inject {
 
 ### Lifecycle
 
-每个服务实例都有其对应的生命周期，不同生命周期有着不同的行为逻辑。支持三种生命周期类型，默认是：`transient`。
+Each service instance has its corresponding life cycle, and different life cycles have different behavioral logic.
+Three life cycle types are supported, the default is: `transient`.
 
 #### transient
 
-默认的生命周期，即容器的每一次 `resolve` 都会创建一个全新的实例。
+The default life cycle means that `resolve` a new instance is created every time the container is used.
 
 #### singleton
 
-即单例，实例全局唯一且只会实例化一次。
+That is, a singleton instance is globally unique and will only be instantiated once.
 
 #### resolution
 
-类似 `transient`，不同之处在于一次 `resolve` 的过程中创建的实例都是唯一的。
+Similar `transient` , the difference is that  `resolve` the instances created in a process are unique.
 
-即：A 依赖 B 和 C ，B 依赖 C, 如果 C 的生命周期是 `resolution`, 那么 B 和 A 都将引用同一个 C 的实例。
+That is: A depends on B and C, and B depends on C. If the life cycle of C is `resolution`, then both B and A will
+reference the same instance of C.
 
 ### Provider
 
-向容器注册的服务提供者，支持四种 `Provider` 类型:
+Service providers registered with the container support four `Provider` types:
 
 #### value provider
 
-该 `Provider` 用于向容器提供一些 JavaScript 基础类型值（不能是 `undefined` ）。
+The is `Provider` used to provide some JavaScript primitive type value to the container (which it cannot be `undefined`)
+.
 
 ```typescript
 interface ValueProvider<T> {
-  // 任何非 undefined 的值都可以使用。
+  // Any value other than undefined can be used.
   useValue: T;
 }
 ```
 
 #### class provider
 
-该 provider 用于向容器提供一个类，它的生命周期需要用 `@injectable` 进行装饰才能实现，否则将是默认的 `Lifecycle.transient`
-。
+This provider is used to provide a class to the container. Its life cycle needs to be `@injectable` decorated with to be
+implemented, otherwise it will be the default `Lifecycle.transient`.
 
-对于这种 `Provider` 其实为这个 class 新增了一个别名。
+For this kind of `Provider` thing, an alias is actually added to this class.
 
 ```typescript
 interface ClassProvider<T> {
@@ -173,9 +188,10 @@ interface ClassProvider<T> {
 
 #### factory provider
 
-工厂函数在每次 `resolve` 时都会调用， 工厂函数中可以直接访问当前容器，可以使用容器获取其他的服务实例。
+The factory function `resolve` will be called every time. The current container can be directly accessed in the factory
+function, and the container can be used to obtain other service instances.
 
-*暂时不支持任何的生命周期类型*
+*No life cycle types are currently supported*
 
 ```typescript
 interface FactoryProvider<T> {
@@ -185,9 +201,10 @@ interface FactoryProvider<T> {
 
 #### token provider
 
-此 `Provider` 可以认为是一个别名或者重定向功能。
+This `Provider` can be thought of as an alias or redirect function.
 
-此 `Provider` 注册时会检查是否有构成循环依赖，如果有发现则会抛出错误。
+When registering, `Provider` it will check whether there is a circular dependency, and if found, an error will be
+thrown.
 
 ```typescript
 interface TokenProvider<T> {
@@ -197,12 +214,14 @@ interface TokenProvider<T> {
 
 ### Lazy
 
-用于解决类循环依赖的问题。使用此方法后在 `resolve` 时不会真正的实例化一个类，而是为这个类创建一个 proxy 对象。
-在第一次使用这个类时才会去实例化它，从而绕过循环依赖的问题。
+Used to solve class circular dependency problems. After using this method, `resolve` a class will not actually be
+instantiated, but a proxy object will be created for this class. This class will be instantiated only when it is used
+for the first time, thereby bypassing the problem of circular dependencies.
 
-**这也意味着如果无法获取实例时，对应的错误也会延迟到第一次使用时抛出。** 也就是可能会在意想不到的情况下报错，**请谨慎使用**
+**This also means that if the instance cannot be obtained, the corresponding error will be delayed until the first
+use.** That is to say, an error may be reported in unexpected circumstances, **please use it with caution.**
 
-此方法也可用于解决模块循环依赖的问题。
+*This method can also be used to solve the problem of module circular dependencies.*
 
 ```typescript
 interface lazy<T> {
@@ -212,9 +231,10 @@ interface lazy<T> {
 
 ### Token
 
-在向容器注册 `Provider` 的时候，只能使用三种类型的值作为 `ServiceIdentifier`，分别是：`string` 、`symbol` 和 `Token`。
+When registering with the container `Provider` , only three types of values can be used `ServiceIdentifier` ,
+namely: `string` 、`symbol` and `Token`.
 
-`Token` 类仅在在向容器注册 `Provider` 的时候有机会使用到。建议使用 `Symbol`。
+`Token` Classes are only `Provider` used when registered with the container. Recommended `Symbol`.
 
 ```typescript
 class Token<T> {
@@ -224,28 +244,22 @@ class Token<T> {
 
 ### NormalToken
 
-在向容器注册 `Provider` 的时候，只能使用三种类型的值，分别是：`string` 、`symbol` 和 `Token`。`NormalToken` 用于表示这种类型。
+When registering with the container `Provider` , only three types of values can be used, namely: `string` 、`symbol`
+and `Token`. `NormalToken` used to represent this type.
 
 ```typescript
 type NormalToken<T> = string | symbol | Token<T>
 ```
 
-### ServiceIdentifier
-
-内部多处使用的一个类型，主要用于 `resolve` 方法的第一个参数。
-
-```typescript
-type ServiceIdentifier<T> = NormalToken<T> | Constructor<T> | Lazy<T>
-```
-
 ### container
 
-container 指的就是依赖注入容器（Dependency Injection Container）就是一个对象，它知道怎样初始化并配置对象及其依赖的所有对象。
+Container refers to a dependency injection container (Dependency Injection Container) which is an object that knows how
+to initialize and configure the object and all the objects it depends on.
 > [Inversion of Control Containers and the Dependency Injection pattern](https://martinfowler.com/articles/injection.html)
 
 #### container.has
 
-检查一个 `ServiceIdentifier` 是否已经注册过 `Provider` 了。
+Check `ServiceIdentifier` if a has already been registered `Provider`.
 
 ```typescript
 interface has<T> {
@@ -255,7 +269,8 @@ interface has<T> {
 
 #### container.register
 
-向依赖注入容器注册一个 `Provider` ，容器在 `resolve` 时可能会使用此 `Provider` 获取服务实例。
+Register one with the dependency injection container `Provider` , `resolve` which may be used by the
+container `Provider` to obtain a service instance.
 
 ```typescript
 interface register<T> {
@@ -265,9 +280,9 @@ interface register<T> {
 
 #### container.resolve
 
-传入一个 `ServiceIdentifier` 以获取其对应的实例。
+Pass in a `ServiceIdentifier` to get its corresponding instance.
 
-*可能会抛出多种错误*
+*Various errors may be thrown*
 
 ```typescript
 interface resolve<T> {
@@ -277,7 +292,8 @@ interface resolve<T> {
 
 #### container.reset
 
-重置容器状态，此操作会清除所有的服务实例（单例）、和所有已注册的 `Provider`。**请谨慎使用**。
+Reset the container state. This operation will clear all service instances (singletons) and all registered
+ones `Provider`. **Please use with caution.**
 
 ```typescript
 interface reset {
@@ -285,52 +301,59 @@ interface reset {
 }
 ```
 
-## 循环依赖
+## Circular dependency
 
-使用 esdi 可能遇到的循环依赖问题分为以下几种：
+The circular dependency problems you may encounter when using esdi are divided into the following types:
 
-### 模块循环依赖
+### Module circular dependency
 
-即两个 js 文件互相依赖，可能两个类实际上并没有出现互相依赖。此种场景在使用 `@inject` 装饰器就会报错。
+That is, two js files depend on each other, and the two classes may not actually depend on each other. In this
+scenario, `@inject` an error will be reported when using the decorator.
 > No 'serviceIdentifier' parameter was received. Could mean a circular dependency problem. Try using `lazy` function.
 
-对于此种场景建议是自行修改代码结构解决（esdi 并没有专门为这种场景添加支持，因为使用 `lazy`
-方法就可以解决。不过[副作用](#lazy)比较大）。
+For this scenario, it is recommended to modify the code structure by yourself (esdi has not specifically added support
+for this scenario, because `lazy`
+it can be solved by using the method. However, [the side effects](#lazy) are relatively large).
 
-如果实在是不方便修改代码结构。可以使用 `lazy`
-方法解决，具体使用可参考此 [示例](./src/__tests__/fixtures/fix-class-circular)。
+If it is really inconvenient to modify the code structure. This can be solved using `lazy`
+the method. For specific usage, please refer to this [example](./src/__tests__/fixtures/fix-class-circular).
 
-### 两个类互相依赖
+### Two classes depend on each other
 
-对于此场景可以使用 `lazy` 方法绕过限制，不过请了解使用 `lazy` 方法会带来的 [问题](#lazy)。
+For this scenario, you can use `lazy` the method to bypass the restriction, but please be aware
+of [the problems](#lazy) `lazy` caused by using the method.
 
-具体使用可参考此 [示例](./src/__tests__/fixtures/fix-class-circular) 。
+For specific usage, please refer to this [example](./src/__tests__/fixtures/fix-class-circular) .
 
-### 其他循环
+### Other loops
 
-esdi 在检测到循环依赖时，可能会抛出类似下方这种错误：
+When esdi detects a circular dependency, it may throw an error similar to the following:
 > Discovery of circular dependencies: A -> String(b) -> A
 
-## 注意事项
+## Precautions
 
-- 如果需要被注入依赖的类**存在必传参数**（可以有默认参数）则无法获得实例，会抛出一个错误。
-- 一个类它不需要注入任何依赖，那么可以省略 `@injectable` 装饰器，但是其生命周期就会是默认的 `Lifecycle.transient`。
-- 提供的三个装饰器都可以重复使用，后运行的装饰器会覆盖先运行的。
-- 如果提供的装饰器使用在非第三阶段装饰器环境中则会抛出一个错误。
-- 如果使用了 `@inject` 但是没有使用 `@injectable` 依赖能正常注入，但是其生命周期就会是默认的 `Lifecycle.transient`。
-- `ValueProvider` 支持任意非 `undefined` 类型的值。
-- 不在需要 `reflect-metadata` 。
+- If the class that needs to be injected with dependencies **has required parameters** (it can have default parameters),
+  the instance cannot be obtained and an error will be thrown.
+- A class does not need to inject any dependencies, so `@injectable` the decorator can be omitted, but its life cycle
+  will be default `Lifecycle.transient`.
+- The three provided decorators can be reused, and the decorators that run later will overwrite the ones that run first.
+- An error will be thrown if the provided decorator is used in a context other than a stage 3 decorator.
+- If it is used `@inject` but not used, `@injectable` the dependency can be injected normally, but its life cycle will
+  be the default `Lifecycle.transient`.
+- `ValueProvider` Any value not `undefined` of type is supported.
+- No longer needed `reflect-metadata` .
 
 ## FAQ
 
-#### 为什么不支持构造函数参数注入依赖？
+#### Why is constructor parameter injection dependency not supported?
 
-因为目前第三阶段的装饰器提案缺少参数装饰器 [decorators proposal](https://github.com/tc39/proposal-decorators#:~:text=Could%20we%20support%20decorating%20objects%2C%20parameters%2C%20blocks%2C%20functions%2C%20etc%3F)
-，故不支持构造函数参数注入。
+Because the current third stage decorator proposal lacks
+parameter [decorators proposal](https://github.com/tc39/proposal-decorators#:~:text=Could%20we%20support%20decorating%20objects%2C%20parameters%2C%20blocks%2C%20functions%2C%20etc%3F)
+, constructor parameter injection is not supported.
 
-#### class provider 如何设置生命周期？
+#### How to set the life cycle of class provider?
 
-可以为相对应的 class 添加 `@injectable` 装饰器。
+`@injectable` Decorators can be added to the corresponding class .
 
 ## License
 
